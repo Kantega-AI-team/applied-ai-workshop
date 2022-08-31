@@ -46,7 +46,6 @@ class DETRdemo(nn.Module):
         )
 
         # prediction heads, one extra class for predicting non-empty slots
-        # note that in baseline DETR linear_bbox layer is 3-layer MLP
         self.linear_class = nn.Linear(hidden_dim, num_classes + 1)
         self.linear_bbox = nn.Linear(hidden_dim, 4)
 
@@ -54,7 +53,6 @@ class DETRdemo(nn.Module):
         self.query_pos = nn.Parameter(torch.rand(100, hidden_dim))
 
         # spatial positional encodings
-        # note that in baseline DETR we use sine positional encodings
         self.row_embed = nn.Parameter(torch.rand(50, hidden_dim // 2))
         self.col_embed = nn.Parameter(torch.rand(50, hidden_dim // 2))
 

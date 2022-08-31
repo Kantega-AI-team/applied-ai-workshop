@@ -17,6 +17,7 @@ Cython = "^0.29.32"
 scipy = "^1.9.1"
 matplotlib = "^3.5.3"
 requests = "^2.28.1"
+graphviz = "^0.20.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"   
