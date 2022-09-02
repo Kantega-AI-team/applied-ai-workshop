@@ -14,6 +14,9 @@ with tab0:
 
     if all([word in hva_gjor.lower() for word in ["hva", "gjør", "data", "scientist"]]):
         st.image("resources/image25.png", width=1500)
+    
+    elif all([word in hva_gjor.lower() for word in ["bør", "data", "scientist", "kunne"]]):
+        st.image("resources/image23.png", width=1500)
 
 
 with tab1:
