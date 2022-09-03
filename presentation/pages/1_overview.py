@@ -22,7 +22,7 @@ with tab0:
 
 
 with tab1:
-    graph = graphviz.Digraph(node_attr={"shape": "plaintext"})
+    graph = graphviz.Digraph(node_attr={"shape": "plaintext", "size": "20"})
     graph.edge("Kunstig intelligens", "Maskinlæring")
     graph.edge("Kunstig intelligens", "GOFAI")
     graph.edge("Maskinlæring", "Veiledet læring")
@@ -43,18 +43,20 @@ with tab1:
     graph.edge("Klassifisering", "Random Forest ")
     graph.edge("Klassifisering", "Nevrale nettverk ")
     graph.edge("Klassifisering", "Beslutningstrær")
-
     st.graphviz_chart(graph)
 
 
 with tab2:
-    st.markdown("## Maskinlæring")
-    st.markdown(
-        "##### A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P if its performance at tasks in T, as measured by P, improves with experience E"
+    st.markdown("""
+         ### "A computer program is said to learn 
+         #### from experience **E** with respect to some class of tasks **T** and performance measure **P** 
+         #### if its performance at tasks in T, 
+         #### as measured by P, 
+         ### improves with experience E"
+    """
     )
 
 with tab3:
-    st.markdown("## Veiledet læring")
     st.image("resources/veiledet_laring.png")
     col1, col2, col3 = st.columns(3)
     with col1:
