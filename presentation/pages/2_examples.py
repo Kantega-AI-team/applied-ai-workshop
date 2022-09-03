@@ -66,7 +66,7 @@ with tab2:
 
 
 with tab3:
-    col1, col2 = st.columns([1,1])
+    col1, col2 = st.columns([1, 1])
     with col1:
         img_file_buffer = st.camera_input("Ta et bilde av noe")
 
@@ -83,11 +83,10 @@ with tab3:
 
 with tab4:
     st.header("Counting hero")
-    
+
 
 with tab5:
     img = st.image("resources/image68.jpeg")
-
 
 
 kantega_footer()

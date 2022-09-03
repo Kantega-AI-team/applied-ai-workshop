@@ -34,8 +34,8 @@ def defaults():
         unsafe_allow_html=True,
     )
 
-
-    st.markdown("""
+    st.markdown(
+        """
                 <style>
                 @import url('https://fonts.googleapis.com/css2?family=Source Sans Pro:wght@100&display=swap');
 
@@ -43,11 +43,16 @@ def defaults():
                 font-family: 'Roboto', sans-serif;
                 }
                 </style>
-                """, unsafe_allow_html=True)
+                """,
+        unsafe_allow_html=True,
+    )
 
     col1, col2, col3, col4 = st.columns([3, 1, 3, 3], gap="small")
     with col1:
-        st.markdown("# [Kunstig intelligens i praksis](/)")
+        st.markdown(
+            '<h2><a href="../" target="_self">Kunstig intelligens i praksis</a></h2>',
+            unsafe_allow_html=True,
+        )
         st.markdown(
             "#### En kjapp innføring, konkrete eksempler, og hands-on arbeid med low code og åpne data"
         )

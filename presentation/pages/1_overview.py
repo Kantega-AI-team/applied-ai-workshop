@@ -22,7 +22,7 @@ with tab0:
 
 
 with tab1:
-    graph = graphviz.Digraph(node_attr={"size": "20", "fontsize": "10"})
+    graph = graphviz.Digraph(node_attr={"size": "20", "fontsize": "8", "shape": "egg"})
     graph.edge("Kunstig intelligens", "Maskinlæring")
     graph.edge("Kunstig intelligens", "GOFAI")
     graph.node("Maskinlæring", _attributes={"color": "#F49727"})
@@ -45,14 +45,25 @@ with tab1:
 
 
 with tab2:
-    st.markdown("""
-         ### "A computer program is said to learn 
-         #### from experience **E** with respect to some class of tasks **T** and performance measure **P** 
-         #### if its performance at tasks in T, 
-         #### as measured by P, 
-         ### improves with experience E"
-    """
-    )
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("resources/auto.png", width=600)
+    with col2:
+        for i in range(5):
+            st.text("")
+
+        st.markdown(
+            """
+            <div style="text-align: left ">         
+            <i>"A computer program is said to learn 
+            from experience E with respect to some class of tasks T and performance measure P
+            if its performance at tasks in T, 
+            as measured by P, 
+            improves with experience E"</i></div>
+
+                """,
+            unsafe_allow_html=True,
+        )
 
 with tab3:
     st.image("resources/veiledet_laring.png")
