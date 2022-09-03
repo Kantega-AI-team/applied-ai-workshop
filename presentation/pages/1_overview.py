@@ -22,9 +22,10 @@ with tab0:
 
 
 with tab1:
-    graph = graphviz.Digraph(node_attr={"shape": "plaintext", "size": "20"})
+    graph = graphviz.Digraph(node_attr={"size": "20", "fontsize": "10"})
     graph.edge("Kunstig intelligens", "Maskinlæring")
     graph.edge("Kunstig intelligens", "GOFAI")
+    graph.node("Maskinlæring", _attributes={"color": "#F49727"})
     graph.edge("Maskinlæring", "Veiledet læring")
     graph.edge("Maskinlæring", "Ikke-veiledet læring")
     graph.edge("Ikke-veiledet læring", "Dimensjonsreduksjon")
@@ -37,13 +38,10 @@ with tab1:
     graph.edge("Veiledet læring", "Regresjon")
     graph.edge("Veiledet læring", "Klassifisering")
     graph.edge("Regresjon", "Generaliserte lineære modeller")
-    graph.edge("Regresjon", "Gradient Boosting")
-    graph.edge("Regresjon", "Random Forest")
     graph.edge("Regresjon", "Nevrale nettverk")
     graph.edge("Klassifisering", "Random Forest ")
     graph.edge("Klassifisering", "Nevrale nettverk ")
-    graph.edge("Klassifisering", "Beslutningstrær")
-    st.graphviz_chart(graph)
+    st.graphviz_chart(graph, use_container_width=True)
 
 
 with tab2:
@@ -58,10 +56,3 @@ with tab2:
 
 with tab3:
     st.image("resources/veiledet_laring.png")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.image("resources/image47.png")
-    with col2:
-        st.image("resources/image49.png")
-    with col3:
-        st.image("resources/image48.png")

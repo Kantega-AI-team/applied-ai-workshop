@@ -4,14 +4,18 @@ from utils.front_page import front_page
 
 
 def defaults():
+    # Standard page config settings
     st.set_page_config(
         layout="wide",
         page_title="Kunstig intelligens i praksis",
         page_icon="https://www.kantega.no/static/favicon.ico",
         initial_sidebar_state="collapsed",
     )
+
+    # Use kantega watermark as background
     add_bg_from_local("resources/image14.png")
 
+    # Change url color
     st.markdown(
         """
         <style>
@@ -29,6 +33,17 @@ def defaults():
     </style>""",
         unsafe_allow_html=True,
     )
+
+
+    st.markdown("""
+                <style>
+                @import url('https://fonts.googleapis.com/css2?family=Source Sans Pro:wght@100&display=swap');
+
+                html, body, [class*="css"]  {
+                font-family: 'Roboto', sans-serif;
+                }
+                </style>
+                """, unsafe_allow_html=True)
 
     col1, col2, col3, col4 = st.columns([3, 1, 3, 3], gap="small")
     with col1:
