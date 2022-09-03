@@ -20,11 +20,13 @@ def kantega_footer():
         with col2:
             st.markdown("### AI-teamet")
             st.image("resources/image66.png", width=450)
-            st.markdown(""" 
+            st.markdown(
+                """ 
             En fantastisk gjeng som har samlet seg om et felles mål:
 
             ### Å levere ansvarlige og bærekraftige maskinlæringsløsninger som skaper verdi
-            """)
+            """
+            )
 
         with col3:
             st.markdown("### Nora Gjøen-Gjøsæter")
@@ -34,6 +36,7 @@ def kantega_footer():
                 width=300,
             )
             st.markdown("...og tidligere fotballspiller")
-        
 
-        st.markdown("#### *Vi eier alle like mye og vi jobber alle mot et felles mål. I tillegg får vi jobbe med fantastiske kunder og viktige prosjekter som betyr mye for mange.* ")
+        st.markdown(
+            "#### *Vi eier alle like mye og vi jobber alle mot et felles mål. I tillegg får vi jobbe med fantastiske kunder og viktige prosjekter som betyr mye for mange.* "
+        )

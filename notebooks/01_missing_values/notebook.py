@@ -9,12 +9,15 @@
 
 # COMMAND ----------
 
-from sklearn import linear_model
-from sklearn.compose import ColumnTransformer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import pandas as pd
+from numpy import absolute, mean
+from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import HuberRegressor
+from sklearn.model_selection import KFold, cross_val_score
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 # COMMAND ----------
 
@@ -34,7 +37,7 @@ display(df.sample(0.2))
 # MAGIC %md
 # MAGIC **Svar**:
 # MAGIC
-# MAGIC *Ditt svar her*
+# MAGIC *Fyll inn ditt svar her*
 
 # COMMAND ----------
 
@@ -45,7 +48,7 @@ display(df.sample(0.2))
 # MAGIC %md
 # MAGIC **Svar**:
 # MAGIC
-# MAGIC *Ditt svar her*
+# MAGIC *Fyll inn ditt svar her*
 
 # COMMAND ----------
 
@@ -54,10 +57,42 @@ display(df.sample(0.2))
 # COMMAND ----------
 
 pdf = df.toPandas()
-pdf.drop(columns=["_c0", "unnamed_metric", "name", "county"], inplace=True)
-target = "eco_river_water"
+pdf.head()
+
+# COMMAND ----------
+
+# Her må du behandle den manglende verdien!
+pdf.drop(columns=["_c0", "unnamed_metric", "name"], inplace=True)
+
+# COMMAND ----------
+
+numeric_features = ["area", "population", "eco_river_water"]
+numeric_transformer = Pipeline(
+    steps=[("imputer", SimpleImputer(strategy="median")), ("scaler", StandardScaler())]
+)
+
+categorical_features = ["county"]
+categorical_transformer = OneHotEncoder(handle_unknown="ignore")
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", numeric_transformer, numeric_features),
+        ("cat", categorical_transformer, categorical_features),
+    ]
+)
+
+pipeline = Pipeline(
+    steps=[("preprocessor", preprocessor), ("classifier", HuberRegressor())]
+)
+target = "cabin_construction"
 X, y = pdf[[col for col in pdf.columns if col not in [target, "name"]]], pdf[target]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-reg = linear_model.Ridge(alpha=0.5)
-reg.fit(X_train, y_train)
-plt.scatter(reg.predict(X_test), y_test)
+model = TransformedTargetRegressor(regressor=clf, transformer=StandardScaler())
+cv = KFold(n_splits=10, shuffle=True, random_state=1)
+scores = cross_val_score(
+    model, X, y, scoring="neg_mean_absolute_error", cv=cv, n_jobs=-1
+)
+scores = absolute(scores)
+
+
+# Gjennomsnittlig absoluttfeil:
+s_mean = mean(scores)
+print("Mean MAE: %.3f" % (s_mean))
