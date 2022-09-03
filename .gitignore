@@ -2,4 +2,4 @@
 .venv
 .DS_Store
 ordforere.csv
-municipalities_test.csv
+*.csv
