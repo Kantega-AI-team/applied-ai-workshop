@@ -1,30 +1,15 @@
 # Databricks notebook source
 # MAGIC %md ## Manglende data - Hva gjør vi da?
 # MAGIC
-# MAGIC Du er Data Scientist for bedriften *Grønnere enn Grønnest*, og har fått beskjed om å lage en maskinlæringsmodell for å predikere den økologiske tilstanden i elver og vann i norske kommuner.
+# MAGIC Du er Data Scientist for bedriften *Grønnere enn Grønnest*, og har fått beskjed om å lage en maskinlæringsmodell for å predikere hyttebygging i norske kommuner.
 # MAGIC
-# MAGIC Modellen du skal bygge skal være basert på kommunestørrelse, populasjon og hyttebygging, i tillegg til en variabel du ikke helt har forstått hva er for noe, og som attpåtil mangler informasjon for noen kommuner.
+# MAGIC Modellen du skal bygge skal være basert på fylke, kommunestørrelse, populasjon og økologisk tillstand i elver og vann. I tillegg finnes en variabel du ikke helt har forstått hva er for noe, og som attpåtil mangler informasjon for noen kommuner.
 # MAGIC
 # MAGIC Et utdrag fra datasettet kan du se ved å kjøre kommandoen under:
 
 # COMMAND ----------
 
-import matplotlib.pyplot as plt
-import pandas as pd
-from numpy import absolute, mean
-from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import HuberRegressor
-from sklearn.model_selection import KFold, cross_val_score
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-
-# COMMAND ----------
-
 df = spark.read.table("naturkampen_e1")
-
-# COMMAND ----------
-
 display(df.sample(0.2))
 
 # COMMAND ----------
@@ -52,26 +37,53 @@ display(df.sample(0.2))
 
 # COMMAND ----------
 
-# MAGIC %md Nå er det på tide å gå i gang med selve kodingen. Vi har allerede gjort oss klar til å trene en enkel maskinlæringsmodell, men først må vi altså rydde opp i dataene. Dette er din jobb!
+# MAGIC %md Nå er det på tide å gå i gang med selve kodingen. Vi har allerede gjort oss klar til å trene en enkel maskinlæringsmodell, men først må vi altså rydde opp i dataene. Dette er (delvis) din jobb!
 
 # COMMAND ----------
+
+# Vi begynner med å importere et par nyttige klasser og funksjoner fra numpy, pandas og scikit-learn, for så og konvertere spark-dataframen til en Pandas dataframe. Det er ikke så farlig om du ikke forstår hva som skjer her
+
+import matplotlib.pyplot as plt
+import pandas as pd
+from numpy import absolute, mean
+from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import KFold, cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 pdf = df.toPandas()
 pdf.head()
 
 # COMMAND ----------
 
-# Her må du behandle den manglende verdien!
-pdf.drop(columns=["_c0", "unnamed_metric", "name"], inplace=True)
+# MAGIC %md #### Oppgave 3 - alternativ A:
+# MAGIC Håndtere de manglende verdiene ved å filtrere de bort. Om du heller vil gjøre noe annet, gå til alternativ B
 
 # COMMAND ----------
 
-numeric_features = ["area", "population", "eco_river_water"]
-numeric_transformer = Pipeline(
-    steps=[("imputer", SimpleImputer(strategy="median")), ("scaler", StandardScaler())]
-)
+pdf.drop(columns=["_c0", "name"], inplace=True)
+# TODO: pdf.dropna( ... ) fyll ut nødvendige kommandoer her
 
+# COMMAND ----------
+
+# MAGIC %md #### Oppgave 3 - alternativ B:
+# MAGIC Håndtere de manglende verdiene ved å sette en verdi på en eller annen måte
+
+# COMMAND ----------
+
+target = "cabin_construction"
+numeric_features = ["area", "population", "eco_river_water", "unnamed_metric"]
 categorical_features = ["county"]
+
+
+numeric_transformer = Pipeline(
+    # Hvis du prøver alternativ B fyller du inn et steg her. Ellers ender du opp med en ubrukelig modell..!
+    steps=[
+        ("scaler", StandardScaler())
+    ]  # [TODO sett i fasit f.eks ("imputer", SimpleImputer(strategy="median"))]
+)
 categorical_transformer = OneHotEncoder(handle_unknown="ignore")
 preprocessor = ColumnTransformer(
     transformers=[
@@ -81,11 +93,18 @@ preprocessor = ColumnTransformer(
 )
 
 pipeline = Pipeline(
-    steps=[("preprocessor", preprocessor), ("classifier", HuberRegressor())]
+    steps=[("preprocessor", preprocessor), ("regression", LinearRegression())]
 )
-target = "cabin_construction"
+
+
+# COMMAND ----------
+
+# MAGIC %md #### Trene modellen - her skal
+
+# COMMAND ----------
+
 X, y = pdf[[col for col in pdf.columns if col not in [target, "name"]]], pdf[target]
-model = TransformedTargetRegressor(regressor=clf, transformer=StandardScaler())
+model = TransformedTargetRegressor(regressor=pipeline, transformer=StandardScaler())
 cv = KFold(n_splits=10, shuffle=True, random_state=1)
 scores = cross_val_score(
     model, X, y, scoring="neg_mean_absolute_error", cv=cv, n_jobs=-1
@@ -96,3 +115,11 @@ scores = absolute(scores)
 # Gjennomsnittlig absoluttfeil:
 s_mean = mean(scores)
 print("Mean MAE: %.3f" % (s_mean))
+
+# COMMAND ----------
+
+# MAGIC %md #### Bonusoppgaver
+# MAGIC
+# MAGIC - Kan du forklare hva som skjer på linje 3 og 4 i forrige celle?
+# MAGIC - Kan du si noe om hvor god denne modellen egentlig er?
+# MAGIC - Gå til naturkampen.no og se om du finner ut hvilken indikator "unnamed_metric" egentlig er. Er du fortsatt fornøyd med taktikken du valgte?
