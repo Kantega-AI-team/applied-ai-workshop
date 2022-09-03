@@ -47,7 +47,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from numpy import absolute, mean
 from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
-from sklearn.impute import SimpleImputer
+from sklearn.impute import SimpleImputer # Her ligger et lite hint...
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import KFold, cross_val_score
 from sklearn.pipeline import Pipeline
