@@ -59,5 +59,6 @@ automl.regress(
 
 # COMMAND ----------
 
-# MAGIC %md #### Oppgave 2: Kan du forklare modellen? Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
-# MAGIC
+# MAGIC %md #### Oppgave 2: Kan du forklare modellen du brukte for prediksjon? 
+# Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
+# TIPS: Se på eksperimentnotebooken
