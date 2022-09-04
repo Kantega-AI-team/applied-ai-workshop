@@ -9,7 +9,7 @@
 
 # COMMAND ----------
 
-df = spark.read.table("naturkampen_e1")
+df = spark.read.table("naturkampen_1")
 display(df.sample(0.2))
 
 # COMMAND ----------
