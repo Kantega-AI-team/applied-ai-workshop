@@ -2,6 +2,11 @@
 from typing import List
 
 import pandas as pd
+from pyspark.sql import # COMMAND ----------
+
+# MAGIC %md #### Oppgave 1: Kan du gjøre en prediksjon med en av modellene?
+# MAGIC Hvordan tolker du prediksjonen?
+
 from databricks import automl
 from pyspark.sql.functions import col, regexp_replace, trim
 from sklearn.compose import ColumnTransformer
@@ -14,7 +19,7 @@ spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", False)
 
 def custom_data_preparation(
     table_name: str, categorical_features: List[str], numeric_features: List[str]
-):
+) -> DataFrame:
     """
     Not strictly necassary, just
     """
@@ -54,10 +59,11 @@ automl.regress(
 # COMMAND ----------
 
 # MAGIC %md #### Oppgave 1: Kan du gjøre en prediksjon med en av modellene?
+# MAGIC 
 # MAGIC Hvordan tolker du prediksjonen?
 
 # COMMAND ----------
 
 # MAGIC %md #### Oppgave 2: Kan du forklare modellen du brukte for prediksjon? 
-# MAGIC # Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
-# MAGIC # TIPS: Se på eksperimentnotebooken
+# MAGIC Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
+# MAGIC TIPS: Se på eksperimentnotebooken
