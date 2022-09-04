@@ -266,7 +266,7 @@ scores, boxes = detect(im, detr, transform)
 
 def plot_results(pil_img, prob, boxes):
 
-    fig = plt.figure(figsize=(16, 10))
+    fig = plt.figure(figsize=(10, 10))
     plt.imshow(pil_img)
     ax = plt.gca()
     for p, (xmin, ymin, xmax, ymax), c in zip(prob, boxes.tolist(), COLORS * 100):

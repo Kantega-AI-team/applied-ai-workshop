@@ -8,11 +8,12 @@ from utils.kantega import kantega_footer
 defaults()
 st.markdown("# Eksempler")
 
-tab1, tab2, tab3, tab4 = st.tabs(
+tab1, tab2, tab3, tab4, tab5 = st.tabs(
     [
         "Diskriminerende redning",
         "Optimalisert bilplassering",
         "Objektdeteksjon på echo",
+        "Avansert objektdeteksjon med Counting Hero",
         "Kjønnsidentifisering",
     ]
 )
@@ -55,21 +56,36 @@ with tab1:
         )
 
 with tab2:
-    st.header("Optimalisert bilplassering")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.image("resources/dele2.png")
+    with col2:
+        st.image("resources/dele1.png")
+    with col3:
+        st.markdown("Noe tekst")
+
 
 with tab3:
-    st.header("Objektdeteksjon på echo")
-    img_file_buffer = st.camera_input("Ta et bilde av noe")
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        img_file_buffer = st.camera_input("Ta et bilde av noe")
 
-    if img_file_buffer is not None:
-        # To read image file buffer as a PIL Image
-        img = Image.open(img_file_buffer)
+    with col2:
 
-        scores, boxes = detect(img, detr, transform)
-        plot_results(img, scores, boxes)
+        if img_file_buffer is not None:
+            # To read image file buffer as a PIL Image
+            img = Image.open(img_file_buffer)
+
+            scores, boxes = detect(img, detr, transform)
+            plot_results(img, scores, boxes)
+        else:
+            st.markdown("...")
 
 with tab4:
-    st.header("Kjønnsidentifisering")
+    st.header("Counting hero")
+
+
+with tab5:
     img = st.image("resources/image68.jpeg")
 
 
