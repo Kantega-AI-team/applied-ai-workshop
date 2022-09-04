@@ -56,9 +56,8 @@ automl.regress(
 # MAGIC %md #### Oppgave 1: Kan du gjøre en prediksjon med en av modellene?
 # MAGIC Hvordan tolker du prediksjonen?
 
-
 # COMMAND ----------
 
 # MAGIC %md #### Oppgave 2: Kan du forklare modellen du brukte for prediksjon? 
-# Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
-# TIPS: Se på eksperimentnotebooken
+# MAGIC # Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
+# MAGIC # TIPS: Se på eksperimentnotebooken
