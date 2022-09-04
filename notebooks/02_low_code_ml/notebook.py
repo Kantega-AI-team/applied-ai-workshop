@@ -7,6 +7,8 @@ from pyspark.sql.functions import col, regexp_replace, trim
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
+spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", False)
+
 # COMMAND ----------
 
 
@@ -50,3 +52,12 @@ automl.regress(
 )
 
 # COMMAND ----------
+
+# MAGIC %md #### Oppgave 1: Kan du gjøre en prediksjon med en av modellene?
+# MAGIC Hvordan tolker du prediksjonen?
+
+
+# COMMAND ----------
+
+# MAGIC %md #### Oppgave 2: Kan du forklare modellen? Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
+# MAGIC
