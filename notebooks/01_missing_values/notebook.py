@@ -1,10 +1,10 @@
 # Databricks notebook source
 # MAGIC %md ## Manglende data - Hva gjør vi da?
-# MAGIC 
+# MAGIC
 # MAGIC Du er Data Scientist for bedriften *Grønnere enn Grønnest*, og har fått beskjed om å lage en maskinlæringsmodell for å predikere hyttebygging i norske kommuner.
-# MAGIC 
+# MAGIC
 # MAGIC Modellen du skal bygge skal være basert på fylke, kommunestørrelse, populasjon og økologisk tillstand i elver og vann. I tillegg finnes en variabel du ikke helt har forstått hva er for noe, og som attpåtil mangler informasjon for noen kommuner.
-# MAGIC 
+# MAGIC
 # MAGIC Et utdrag fra datasettet kan du se ved å kjøre kommandoen under:
 
 # COMMAND ----------
@@ -21,7 +21,7 @@ display(df.sample(0.2))
 
 # MAGIC %md
 # MAGIC **Svar**:
-# MAGIC 
+# MAGIC
 # MAGIC *Fyll inn ditt svar her*
 
 # COMMAND ----------
@@ -32,7 +32,7 @@ display(df.sample(0.2))
 
 # MAGIC %md
 # MAGIC **Svar**:
-# MAGIC 
+# MAGIC
 # MAGIC *Fyll inn ditt svar her*
 
 # COMMAND ----------
@@ -43,7 +43,7 @@ display(df.sample(0.2))
 
 """ Vi begynner med å importere et par nyttige klasser og funksjoner fra numpy, 
 pandas og scikit-learn, for så og konvertere spark-dataframen til en Pandas dataframe. 
-Det er ikke så farlig om du ikke forstår hva som skjer her! """ 
+Det er ikke så farlig om du ikke forstår hva som skjer her! """
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -83,9 +83,7 @@ categorical_features = ["county"]
 
 numeric_transformer = Pipeline(
     # TODO: Hvis du prøver alternativ B fyller du inn et steg her. Ellers ender du opp med en ubrukelig modell..!
-    steps=[
-        ("scaler", StandardScaler())
-    ]
+    steps=[("scaler", StandardScaler())]
 )
 categorical_transformer = OneHotEncoder(handle_unknown="ignore")
 preprocessor = ColumnTransformer(
@@ -122,7 +120,7 @@ print("Mean MAE: %.3f" % (s_mean))
 # COMMAND ----------
 
 # MAGIC %md #### Bonusoppgaver
-# MAGIC 
+# MAGIC
 # MAGIC - Kan du forklare hva som skjer på linje 3 og 4 i forrige celle?
 # MAGIC - Kan du si noe om hvor god denne modellen egentlig er?
 # MAGIC - Gå til naturkampen.no og se om du finner ut hvilken indikator "unnamed_metric" egentlig er. Er du fortsatt fornøyd med taktikken du valgte?

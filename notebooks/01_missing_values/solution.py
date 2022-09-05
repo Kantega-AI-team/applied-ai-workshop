@@ -19,8 +19,8 @@ categorical_features = ["county"]
 
 numeric_transformer = Pipeline(
     steps=[
-        ("imputer", SimpleImputer(strategy="mean")), # Impute missing values using mean
-        ("scaler", StandardScaler())
+        ("imputer", SimpleImputer(strategy="mean")),  # Impute missing values using mean
+        ("scaler", StandardScaler()),
     ]
 )
 categorical_transformer = OneHotEncoder(handle_unknown="ignore")
@@ -48,5 +48,3 @@ s_mean = mean(scores)
 print("Mean MAE: %.3f" % (s_mean))
 
 # COMMAND ----------
-
-

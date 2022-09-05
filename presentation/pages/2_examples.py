@@ -86,7 +86,10 @@ with tab3:
             st.markdown("...")
 
 with tab4:
-    st.image("https://media-exp1.licdn.com/dms/image/C4E22AQGK7KErb7oToA/feedshare-shrink_2048_1536/0/1659537910391?e=1665014400&v=beta&t=aOqqkprLrEW8maoPJ61nb-Uj3fiR2zMJ-Df0GxWBW-s", width=1200)
+    st.image(
+        "https://media-exp1.licdn.com/dms/image/C4E22AQGK7KErb7oToA/feedshare-shrink_2048_1536/0/1659537910391?e=1665014400&v=beta&t=aOqqkprLrEW8maoPJ61nb-Uj3fiR2zMJ-Df0GxWBW-s",
+        width=1200,
+    )
 
 
 with tab5:

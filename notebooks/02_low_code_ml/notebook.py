@@ -1,24 +1,26 @@
 # Databricks notebook source
 # MAGIC %md ## Low code ML
-# MAGIC 
+# MAGIC
 # MAGIC *Grønnere enn Grønnest* ber deg nå vurdere om det er noe som kan forklare endelig rangering i naturkampen, baserte på generelle kriterier som folketall, areal og hvilket parti som har ordføreren i kommunen. Din oppgave er å finne ut om noen av disse variablene forklarer mye av sluttrangeringen. Du velger å bygge mange modeller, raskt - ved bruk av et low code ML-verkøy.
 
 # COMMAND ----------
 
 """ Vi begynner med å importere et par nyttige klasser og funksjoner, 
 for så å gjøre noen enkle transformasjoner på datasettet.
-Som sist - Det er ikke så farlig om du ikke forstår hva som skjer her! """ 
+Som sist - Det er ikke så farlig om du ikke forstår hva som skjer her! """
 
 
 from typing import List
 
 import pandas as pd
 from databricks import automl
+from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, regexp_replace, trim
 from sklearn.compose import ColumnTransformer
-from pyspark.sql import DataFrame
 from sklearn.preprocessing import OneHotEncoder
+
 spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", False)
+
 
 def custom_data_preparation(
     table_name: str, categorical_features: List[str], numeric_features: List[str]
@@ -57,7 +59,6 @@ display(df.sample(0.1))
 # COMMAND ----------
 
 
-
 # COMMAND ----------
 
 """ Her trener du modellene """
@@ -73,15 +74,15 @@ summary = automl.regress(
 # COMMAND ----------
 
 # MAGIC %md #### Oppgave 1: Kan du gjøre en prediksjon med en av modellene?
-# MAGIC 
+# MAGIC
 # MAGIC Hvordan tolker du prediksjonen?
-# MAGIC 
+# MAGIC
 # MAGIC **TIPS**: Se på eksperimentnotebooken som har laget modellen
 
 # COMMAND ----------
 
 # MAGIC %md #### Oppgave 2: Kan du forklare modellen du brukte for prediksjon?
-# MAGIC 
+# MAGIC
 # MAGIC Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
-# MAGIC 
+# MAGIC
 # MAGIC **TIPS**: Se på eksperimentnotebooken

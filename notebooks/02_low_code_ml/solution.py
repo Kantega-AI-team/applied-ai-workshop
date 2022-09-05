@@ -2,12 +2,12 @@
 from typing import List
 
 import pandas as pd
+import statsmodels.formula.api as sm
 from databricks import automl
+from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, regexp_replace, trim
 from sklearn.compose import ColumnTransformer
-from pyspark.sql import DataFrame
 from sklearn.preprocessing import OneHotEncoder
-import statsmodels.formula.api as sm
 
 
 def custom_data_preparation(
@@ -47,6 +47,9 @@ for column in df.columns:
 pdf = df.toPandas()
 
 
-mod = sm.ols(formula="rank~area+population+INNLANDET+MØRE_OG_ROMSDAL+NORDLAND+ROGALAND+TROMS_OG_FINNMARK+TRØNDELAG+VESTFOLD_OG_TELEMARK+VESTLAND+VIKEN+Ap+Frp+H+KrF+MDG+SV+Sp+V", data=pdf)
+mod = sm.ols(
+    formula="rank~area+population+INNLANDET+MØRE_OG_ROMSDAL+NORDLAND+ROGALAND+TROMS_OG_FINNMARK+TRØNDELAG+VESTFOLD_OG_TELEMARK+VESTLAND+VIKEN+Ap+Frp+H+KrF+MDG+SV+Sp+V",
+    data=pdf,
+)
 res = mod.fit()
 print(res.summary())
