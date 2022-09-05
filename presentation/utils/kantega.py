@@ -24,7 +24,7 @@ def kantega_footer():
                 """ 
             En fantastisk gjeng som har samlet seg om et felles mål:
 
-            ### Å levere ansvarlige og bærekraftige maskinlæringsløsninger som skaper verdi
+            #### Å levere ansvarlige og bærekraftige maskinlæringsløsninger som skaper verdi
             """
             )
 

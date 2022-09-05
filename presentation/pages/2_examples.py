@@ -13,13 +13,15 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(
         "Diskriminerende redning",
         "Optimalisert bilplassering",
         "Objektdeteksjon på echo",
-        "Avansert objektdeteksjon med Counting Hero",
+        "Avansert objektdeteksjon",
         "Kjønnsidentifisering",
     ]
 )
 
 with tab1:
-    col1, col2 = st.columns(2, gap="small")
+    col0, col1, col2, col3 = st.columns(4, gap="large")
+    with col0:
+        st.text(" ")
     with col1:
         st.markdown("### Treningsdata")
         st.markdown(
@@ -56,13 +58,15 @@ with tab1:
         )
 
 with tab2:
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.image("resources/dele2.png")
+        st.empty()
     with col2:
-        st.image("resources/dele1.png")
+        st.image("resources/dele2.png")
     with col3:
-        st.markdown("Noe tekst")
+        st.image("resources/dele1.png")
+    with col4:
+        st.empty()
 
 
 with tab3:
@@ -82,7 +86,7 @@ with tab3:
             st.markdown("...")
 
 with tab4:
-    st.header("Counting hero")
+    st.image("https://media-exp1.licdn.com/dms/image/C4E22AQGK7KErb7oToA/feedshare-shrink_2048_1536/0/1659537910391?e=1665014400&v=beta&t=aOqqkprLrEW8maoPJ61nb-Uj3fiR2zMJ-Df0GxWBW-s", width=1200)
 
 
 with tab5:
