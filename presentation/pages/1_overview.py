@@ -12,7 +12,12 @@ with tab0:
     show = False
     hva_gjor = st.text_input("")
 
-    if all([word in hva_gjor.lower() for word in ["hva", "gjør", "data", "scientist"]]):
+    if all([word in hva_gjor.lower() for word in ["statistikk", "jobb"]]):
+        st.image("resources/image22.jpeg", width=1500)
+
+    elif all(
+        [word in hva_gjor.lower() for word in ["hva", "gjør", "data", "scientist"]]
+    ):
         st.image("resources/image25.png", width=1500)
 
     elif all(
@@ -45,25 +50,39 @@ with tab1:
 
 
 with tab2:
-    col1, col2 = st.columns(2)
+    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
     with col1:
-        st.image("resources/auto.png", width=600)
+        st.write(" ")
     with col2:
+        st.image("resources/auto.png", width=600)
+    with col3:
         for i in range(5):
             st.text("")
 
         st.markdown(
             """
             <div style="text-align: left ">         
-            <i>"A computer program is said to learn 
+            <i><h3>"A computer program is said to learn 
             from experience E with respect to some class of tasks T and performance measure P
             if its performance at tasks in T, 
             as measured by P, 
-            improves with experience E"</i></div>
+            improves with experience E"</i></h3></div>
 
                 """,
             unsafe_allow_html=True,
         )
+    with col4:
+        st.empty()
 
 with tab3:
-    st.image("resources/veiledet_laring.png")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.empty()
+    with col2:
+        selection = st.radio("", ["Student", "Maskinlæringsmodell"])
+        if selection == "Student":
+            st.image("resources/veiledet_laring.png")
+        else:
+            st.image("resources/sl.png")
+    with col3:
+        st.empty()
