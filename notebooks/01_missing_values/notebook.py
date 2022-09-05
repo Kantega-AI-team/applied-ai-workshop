@@ -9,7 +9,7 @@
 
 # COMMAND ----------
 
-df = spark.read.table("naturkampen_e1")
+df = spark.read.table("naturkampen_1")
 display(df.sample(0.2))
 
 # COMMAND ----------
@@ -41,7 +41,9 @@ display(df.sample(0.2))
 
 # COMMAND ----------
 
-# Vi begynner med å importere et par nyttige klasser og funksjoner fra numpy, pandas og scikit-learn, for så og konvertere spark-dataframen til en Pandas dataframe. Det er ikke så farlig om du ikke forstår hva som skjer her
+""" Vi begynner med å importere et par nyttige klasser og funksjoner fra numpy, 
+pandas og scikit-learn, for så og konvertere spark-dataframen til en Pandas dataframe. 
+Det er ikke så farlig om du ikke forstår hva som skjer her! """
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -53,6 +55,7 @@ from sklearn.model_selection import KFold, cross_val_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
+# Se på dataene
 pdf = df.toPandas()
 pdf.head()
 
@@ -79,10 +82,8 @@ categorical_features = ["county"]
 
 
 numeric_transformer = Pipeline(
-    # Hvis du prøver alternativ B fyller du inn et steg her. Ellers ender du opp med en ubrukelig modell..!
-    steps=[
-        ("scaler", StandardScaler())
-    ]  # [TODO sett i fasit f.eks ("imputer", SimpleImputer(strategy="median"))]
+    # TODO: Hvis du prøver alternativ B fyller du inn et steg her. Ellers ender du opp med en ubrukelig modell..!
+    steps=[("scaler", StandardScaler())]
 )
 categorical_transformer = OneHotEncoder(handle_unknown="ignore")
 preprocessor = ColumnTransformer(
@@ -99,7 +100,7 @@ pipeline = Pipeline(
 
 # COMMAND ----------
 
-# MAGIC %md #### Trene modellen - her skal
+# MAGIC %md #### Trene modellen, vi bruker kryssvalidering for å evaluere performance
 
 # COMMAND ----------
 
