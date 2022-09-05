@@ -7,10 +7,8 @@ from pyspark.sql.functions import col, regexp_replace, trim
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
-# MAGIC %md #### Oppgave 1: Kan du gjøre en prediksjon med en av modellene?
-# MAGIC Hvordan tolker du prediksjonen?
-
-
+%md #### Oppgave 1: Kan du gjøre en prediksjon med en av modellene?
+Hvordan tolker du prediksjonen?
 spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", False)
 
 # COMMAND ----------
@@ -20,7 +18,8 @@ def custom_data_preparation(
     table_name: str, categorical_features: List[str], numeric_features: List[str]
 ) -> DataFrame:
     """
-    Not strictly necassary, just
+    Not strictly necassary, just makes it easier to view and understand
+    how categorical encoding works
     """
     df = spark.read.table(table_name).toPandas()
 
@@ -58,11 +57,12 @@ automl.regress(
 # COMMAND ----------
 
 # MAGIC %md #### Oppgave 1: Kan du gjøre en prediksjon med en av modellene?
-# MAGIC
+# MAGIC 
 # MAGIC Hvordan tolker du prediksjonen?
 
 # COMMAND ----------
 
 # MAGIC %md #### Oppgave 2: Kan du forklare modellen du brukte for prediksjon?
 # MAGIC Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
-# MAGIC TIPS: Se på eksperimentnotebooken
+# MAGIC 
+# MAGIC **TIPS**: Se på eksperimentnotebooken
