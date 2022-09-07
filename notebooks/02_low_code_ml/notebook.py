@@ -1,7 +1,9 @@
 # Databricks notebook source
 # MAGIC %md ## Low code ML
 # MAGIC
-# MAGIC *Grønnere enn Grønnest* ber deg nå vurdere om det er noe som kan forklare endelig rangering i naturkampen, baserte på generelle kriterier som folketall, areal og hvilket parti som har ordføreren i kommunen. Din oppgave er å finne ut om noen av disse variablene forklarer mye av sluttrangeringen. Du velger å bygge mange modeller, raskt - ved bruk av et low code ML-verkøy.
+# MAGIC *Grønnere enn Grønnest* ber deg nå vurdere om det er mulig å forutse en kommunes rangering i naturkampen, baserte på generelle opplysninger som folketall, areal og hvilket parti som har ordføreren i kommunen.
+# MAGIC
+# MAGIC Din oppgave er å finne ut om noen av disse variablene forklarer mye av sluttrangeringen. Du velger å bygge mange modeller, raskt - ved bruk av et low code ML-verkøy.
 
 # COMMAND ----------
 
@@ -15,9 +17,6 @@ from typing import List
 import pandas as pd
 from databricks import automl
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, regexp_replace, trim
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
 
 spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", False)
 
@@ -58,10 +57,11 @@ display(df.sample(0.1))
 
 # COMMAND ----------
 
+# MAGIC %md Selve modelltreningen foregår i neste celle. Vi bruker [databricks automl](https://docs.databricks.com/applications/machine-learning/automl.html?_ga=2.221852319.625249080.1662571032-1699436349.1656921042) som trener på forskjellige modeller fra scikit-learn, XGBoost og LightGBM. Vi har satt `timeout_minutes=5` som betyr at vi gir auto-ML høyst 5 minutter på å trene og tune ulike modeller.
+# MAGIC
+# MAGIC Mens du venter på kjøringen kan du sannsynligvis starte på oppgavene under.
 
 # COMMAND ----------
-
-""" Her trener du modellene """
 
 summary = automl.regress(
     dataset=df,

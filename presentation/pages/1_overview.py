@@ -5,8 +5,14 @@ from utils.defaults import defaults
 defaults()
 st.markdown("# Oversikt")
 
-tab0, tab1, tab2, tab3 = st.tabs(
-    ["Data science", "Kunstig intelligens", "Maskinlæring", "Veiledet læring"]
+tab0, tab1, tab2, tab3, tab4 = st.tabs(
+    [
+        "Data science",
+        "Kunstig intelligens",
+        "Maskinlæring",
+        "Veiledet læring",
+        "Low code",
+    ]
 )
 with tab0:
     show = False
@@ -86,3 +92,8 @@ with tab3:
             st.image("resources/sl.png")
     with col3:
         st.empty()
+
+with tab4:
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("resources/image57.png")

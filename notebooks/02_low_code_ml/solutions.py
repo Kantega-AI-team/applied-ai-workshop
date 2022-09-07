@@ -2,11 +2,7 @@
 from typing import List
 
 import pandas as pd
-from databricks import automl
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, regexp_replace, trim
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
 
 spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", False)
 
