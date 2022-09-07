@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import streamlit as st
 from PIL import Image
 from utils.defaults import defaults
@@ -19,49 +20,26 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(
 )
 
 with tab1:
-    col0, col1, col2, col3 = st.columns(4, gap="large")
+    col0, col1, col2, col3 = st.columns([1, 2, 2, 1])
     with col0:
         st.text(" ")
+
     with col1:
         st.markdown("### Treningsdata")
-        st.markdown(
-            """
-
-        | kunde | antall produkter | alder | postnummer | ble reddet |
-        |-------|------------------|-------|--------|------------|
-        | Ola   | 3                | 34    | 5028   | ja         |
-        | Kari  | 5                | 21    | 5071   | ja         |
-        | Trond | 6                | 49    | 0612   | nei        |
-        | Siv   | 1                | 22    | 3429   | nei        |
-        | Lars  | 1                | 23    | 5253   | ja         |
-        | Frode | 1                | 62    | 5254   | nei        |
-        | Ove   | 1                | 37    | 4078   | ja         |
-        | Jonas | 3                | 62    | 5012   | nei        |
-        | Atle  | 3                | 73    | 5071   | nei        |
-        | Liv   | 2                | 50    | 5071   | nei        |
-        """
-        )
+        df_train = pd.read_csv("resources/redning_input.csv", sep=";")
+        st.dataframe(df_train)
 
     with col2:
         st.markdown("### Prediksjon")
-        st.markdown(
-            """
-
-            | kunde | antall produkter | alder | postnummer | blir reddet |
-        |-------|------------------|-------|--------|------------|
-        | Per   | 4               | 63    | 0820   | 56%         |
-        | Pål  | 1                | 19    | 5038   | 57%         |
-        | Espen   | 1                | 39    | 5245   | 83%        |
-        | Grete   | 1                | 32    | 5245   | 21%        |
-        
-            """
-        )
+        df_test = pd.read_csv("resources/redning_output.csv", sep=";")
+        st.dataframe(df_test)
 
 with tab2:
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.empty()
     with col2:
+        st.markdown("### Optimal plassering?")
         st.image("resources/dele2.png")
     with col3:
         st.image("resources/dele1.png")
@@ -93,7 +71,12 @@ with tab4:
 
 
 with tab5:
-    img = st.image("resources/image68.jpeg")
-
+    select = st.selectbox(label="Søk", options=["", "scientist", "stupid"])
+    if select == "scientist":
+        st.image("resources/image69.png")
+    elif select == "stupid":
+        st.image("resources/image70.jpeg")
+    else:
+        img = st.image("resources/image68.jpeg")
 
 kantega_footer()

@@ -3,6 +3,8 @@ import streamlit as st
 from utils.defaults import defaults
 
 defaults()
+
+
 st.markdown("# Oversikt")
 
 tab0, tab1, tab2, tab3, tab4 = st.tabs(
@@ -81,7 +83,7 @@ with tab2:
         st.empty()
 
 with tab3:
-    col1, col2, col3 = st.columns([1,3,1])
+    col1, col2, col3 = st.columns([1, 3, 1])
     with col1:
         st.empty()
         selection = st.radio("", ["Student", "Maskinlæringsmodell"])
