@@ -1,6 +1,4 @@
 import streamlit as st
-from utils.background import add_bg_from_local
-from utils.front_page import front_page
 
 
 def defaults():
@@ -11,10 +9,6 @@ def defaults():
         page_icon="https://www.kantega.no/static/favicon.ico",
         initial_sidebar_state="collapsed",
     )
-
-    # Use kantega watermark as background
-    add_bg_from_local("resources/image14.png")
-
     # Change url color
     st.markdown(
         """
@@ -47,7 +41,7 @@ def defaults():
         unsafe_allow_html=True,
     )
 
-    col1, col2, col3, col4 = st.columns([3, 1, 3, 3], gap="small")
+    col1, col2, col3, col4 = st.columns([4, 1, 5, 4], gap="small")
     with col1:
         st.markdown(
             '<h2><a href="../" target="_self">Kunstig intelligens i praksis</a></h2>',
@@ -59,7 +53,7 @@ def defaults():
     with col2:
         st.markdown("")
     with col3:
-        st.image("resources/image18.png", width=400)
+        st.image("resources/kantega_logo.png", width=400)
 
     with col4:
         st.image("resources/echo.png")

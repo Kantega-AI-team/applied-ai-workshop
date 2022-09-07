@@ -1,21 +1,7 @@
 # Databricks notebook source
-# MAGIC %md ## Low code ML
-# MAGIC
-# MAGIC *Grønnere enn Grønnest* ber deg nå vurdere om det er mulig å forutse en kommunes rangering i naturkampen, baserte på generelle opplysninger som folketall, areal og hvilket parti som har ordføreren i kommunen.
-# MAGIC
-# MAGIC Din oppgave er å finne ut om noen av disse variablene forklarer mye av sluttrangeringen. Du velger å bygge mange modeller, raskt - ved bruk av et low code ML-verkøy.
-
-# COMMAND ----------
-
-""" Vi begynner med å importere et par nyttige klasser og funksjoner, 
-for så å gjøre noen enkle transformasjoner på datasettet.
-Som sist - Det er ikke så farlig om du ikke forstår hva som skjer her! """
-
-
 from typing import List
 
 import pandas as pd
-from databricks import automl
 from pyspark.sql import DataFrame
 
 spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", False)
@@ -53,23 +39,6 @@ df = custom_data_preparation(
     numeric_features=["area", "population"],
 )
 
-display(df.sample(0.1))
-
-# COMMAND ----------
-
-# MAGIC %md Selve modelltreningen foregår i neste celle. Vi bruker [databricks automl](https://docs.databricks.com/applications/machine-learning/automl.html?_ga=2.221852319.625249080.1662571032-1699436349.1656921042) som trener på forskjellige modeller fra scikit-learn, XGBoost og LightGBM. Vi har satt `timeout_minutes=5` som betyr at vi gir auto-ML høyst 5 minutter på å trene og tune ulike modeller.
-# MAGIC
-# MAGIC Mens du venter på kjøringen kan du sannsynligvis starte på oppgavene under.
-
-# COMMAND ----------
-
-summary = automl.regress(
-    dataset=df,
-    target_col="rank",
-    exclude_cols=["name"],
-    primary_metric="mae",
-    timeout_minutes=5,
-)
 
 # COMMAND ----------
 
@@ -81,8 +50,31 @@ summary = automl.regress(
 
 # COMMAND ----------
 
+import mlflow
+
+logged_model = "runs:/6ff4489f99f846d0ad0ca38f6700ba66/model"
+
+# Load model as a PyFuncModel.
+loaded_model = mlflow.pyfunc.load_model(logged_model)
+
+# Predict on a Pandas DataFrame.
+import pandas as pd
+
+sample = df.sample(0.1).limit(5).toPandas()
+sample["predictions"] = loaded_model.predict(sample)
+
+# COMMAND ----------
+
+sample
+
+# COMMAND ----------
+
 # MAGIC %md #### Oppgave 2: Kan du forklare modellen du brukte for prediksjon?
 # MAGIC
 # MAGIC Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
 # MAGIC
 # MAGIC **TIPS**: Se på eksperimentnotebooken
+
+# COMMAND ----------
+
+# MAGIC %md Se command 19 i [eksperimentnotebooken](https://adb-2582450973867059.19.azuredatabricks.net/?o=2582450973867059#notebook/3901909671451995/command/3901909671452043 )

@@ -3,11 +3,7 @@ from typing import List
 
 import pandas as pd
 import statsmodels.formula.api as sm
-from databricks import automl
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, regexp_replace, trim
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
 
 
 def custom_data_preparation(

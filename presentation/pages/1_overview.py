@@ -3,10 +3,18 @@ import streamlit as st
 from utils.defaults import defaults
 
 defaults()
+
+
 st.markdown("# Oversikt")
 
-tab0, tab1, tab2, tab3 = st.tabs(
-    ["Data science", "Kunstig intelligens", "Maskinlæring", "Veiledet læring"]
+tab0, tab1, tab2, tab3, tab4 = st.tabs(
+    [
+        "Data science",
+        "Kunstig intelligens",
+        "Maskinlæring",
+        "Veiledet læring",
+        "Low code",
+    ]
 )
 with tab0:
     show = False
@@ -50,7 +58,7 @@ with tab1:
 
 
 with tab2:
-    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+    col1, col2, col3, col4 = st.columns([1, 3, 3, 1])
     with col1:
         st.write(" ")
     with col2:
@@ -62,11 +70,11 @@ with tab2:
         st.markdown(
             """
             <div style="text-align: left ">         
-            <i><h3>"A computer program is said to learn 
+            <i><h4>"A computer program is said to learn 
             from experience E with respect to some class of tasks T and performance measure P
             if its performance at tasks in T, 
             as measured by P, 
-            improves with experience E"</i></h3></div>
+            improves with experience E"</i></h4></div>
 
                 """,
             unsafe_allow_html=True,
@@ -75,14 +83,22 @@ with tab2:
         st.empty()
 
 with tab3:
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns([1, 3, 1])
     with col1:
         st.empty()
-    with col2:
         selection = st.radio("", ["Student", "Maskinlæringsmodell"])
+    with col2:
+        st.empty()
         if selection == "Student":
             st.image("resources/veiledet_laring.png")
         else:
             st.image("resources/sl.png")
     with col3:
         st.empty()
+
+with tab4:
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("resources/image57.png")
+    with col2:
+        st.image("resources/image58.jpeg")
