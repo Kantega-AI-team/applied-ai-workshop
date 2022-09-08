@@ -37,7 +37,7 @@ with tab0:
 with tab1:
     graph = graphviz.Digraph(node_attr={"size": "20", "fontsize": "8", "shape": "egg"})
     graph.edge("Kunstig intelligens", "Maskinlæring")
-    graph.edge("Kunstig intelligens", "GOFAI")
+    graph.edge("Kunstig intelligens", "?")
     graph.node("Maskinlæring", _attributes={"color": "#F49727"})
     graph.edge("Maskinlæring", "Veiledet læring")
     graph.edge("Maskinlæring", "Ikke-veiledet læring")
@@ -48,6 +48,7 @@ with tab1:
     graph.edge("Clustering", "K means")
     graph.edge("Clustering", "DBSCAN")
     graph.edge("Ikke-veiledet læring", "Anomalideteksjon")
+    graph.node("Veiledet læring", _attributes={"color": "#F49727"})
     graph.edge("Veiledet læring", "Regresjon")
     graph.edge("Veiledet læring", "Klassifisering")
     graph.edge("Regresjon", "Generaliserte lineære modeller")
