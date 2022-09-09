@@ -7,7 +7,7 @@ def front_page():
 
     with col1:
         st.markdown(
-            '<h2><a href="../overview" target="_self">Oversikt</a></h2>',
+            '<h2><a href="../Oversikt" target="_self">Oversikt</a></h2>',
             unsafe_allow_html=True,
         )
         st.markdown("En enkel innføring i hva kunstig intelligens egentlig er")
@@ -16,7 +16,7 @@ def front_page():
 
     with col2:
         st.markdown(
-            '<h2><a href="../examples" target="_self">Eksempler</a></h2>',
+            '<h2><a href="../Eksempler" target="_self">Eksempler</a></h2>',
             unsafe_allow_html=True,
         )
         st.markdown("Konkrete use case, inkludert et par fra Bergen")
@@ -24,7 +24,7 @@ def front_page():
 
     with col3:
         st.markdown(
-            '<h2><a href="../demo" target="_self">Hands on</a></h2>',
+            '<h2><a href="../Hands on" target="_self">Hands on</a></h2>',
             unsafe_allow_html=True,
         )
         st.markdown("Vi blir småskitten på fingrene med litt low code ML i skyen")
