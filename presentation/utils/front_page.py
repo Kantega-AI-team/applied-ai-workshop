@@ -24,7 +24,7 @@ def front_page():
 
     with col3:
         st.markdown(
-            '<h2><a href="../Hands on" target="_self">Hands on</a></h2>',
+            '<h2><a href="../Handson" target="_self">Hands on</a></h2>',
             unsafe_allow_html=True,
         )
         st.markdown("Vi blir småskitten på fingrene med litt low code ML i skyen")
