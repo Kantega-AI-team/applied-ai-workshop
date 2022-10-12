@@ -47,13 +47,13 @@ def defaults():
             '<h2><a href="../" target="_self">Kunstig intelligens i praksis</a></h2>',
             unsafe_allow_html=True,
         )
-        st.markdown(
-            "#### En kjapp innføring, konkrete eksempler, og hands-on arbeid med low code og åpne data"
-        )
+
     with col2:
         st.markdown("")
     with col3:
         st.image("resources/kantega_logo.png", width=400)
 
     with col4:
-        st.image("resources/echo.png")
+        st.markdown(
+            "#### En kjapp innføring, konkrete eksempler, og hands-on arbeid med low code og åpne data"
+        )
