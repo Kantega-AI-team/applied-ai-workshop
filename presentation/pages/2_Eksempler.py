@@ -13,7 +13,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(
     [
         "Diskriminerende redning",
         "Optimalisert bilplassering",
-        "Objektdeteksjon på echo",
+        "Live objektdeteksjon",
         "Avansert objektdeteksjon",
         "Kjønnsidentifisering",
     ]
