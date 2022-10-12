@@ -12,7 +12,7 @@ with col0:
 
 with col1:
     st.markdown(
-        "### [tinyurl.com/kantega-ai](https://adb-2582450973867059.19.azuredatabricks.net/login.html?o=2582450973867059) ",
+        "### [https://tinyurl.com/kantegaworkshop](https://tinyurl.com/kantegaworkshop) ",
         unsafe_allow_html=True,
     )
     st.image("https://upload.wikimedia.org/wikipedia/commons/6/63/Databricks_Logo.png")
