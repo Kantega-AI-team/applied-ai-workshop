@@ -1,11 +1,22 @@
 # Databricks notebook source
-# Hide warnings
+# MAGIC %md # Autoenkodere
+# MAGIC
+# MAGIC Dagens bonusoppgave handler om autoenkoderen. Vi jobber oss gjennom eksempelet til Magnus fra [denne bloggartikkelen](https://www.kantega.no/blogg/avanserte-maskinlaerekonsepter-autoenkoderen), og prøver til slutt å forbedre modellen som er satt opp.
+# MAGIC
+# MAGIC Vi begynner med litt boilerplate: Imports, hjelpefunksjoner og last av datasettet. Dette kan fint kjøres uten at man trenger å forstå alt.
+
+# COMMAND ----------
+
+# Skjule advarsler
 import warnings
 
 import matplotlib.pyplot as plt
+
+# Imports
 import numpy as np
 import tensorflow as tf
 from sklearn import datasets
+from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.layers import Dense, Flatten, Reshape
 from tensorflow.keras.models import Sequential
@@ -15,59 +26,35 @@ import os
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ### Helper Functions
-
-# COMMAND ----------
-
-
-def get_index_of_values(array, values):
+# Hjelpefunksjoner
+def get_index_of_values(array: np.ndarray, values: np.ndarray):
     sorter = np.argsort(array)
     return sorter[np.searchsorted(array, values, sorter=sorter)]
 
 
-def get_n_indices_of_value(array, value, n):
+def get_n_indices_of_value(array: np.ndarray, value: np.ndarray, n: int):
     return np.where(array == value)[0][0:n]
 
 
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ## Load mnist dataset from sklearn
-
-# COMMAND ----------
-
-from sklearn.datasets import fetch_openml
-
+# Laste inn data
 mnist = fetch_openml(name="mnist_784")
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Reshape images to proper 28x28 format
+# MAGIC ## Inspisere datasettet
 
 # COMMAND ----------
 
-nr_images = len(mnist.data.values)
-all_images = mnist.data.values.reshape((nr_images, 28, 28))
-all_labels = np.array(mnist.target.values)
+images = mnist.data.values.reshape((mnist.data.shape[0], 28, 28))
+labels = np.array(mnist.target.values)
 
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ## Visualize digits from the dataset
-
-# COMMAND ----------
-
-images = all_images[0:4]
-labels = np.array(mnist.target.iloc[0:4].values)
-
-# COMMAND ----------
+# Vi ser på et utvalg
+image_subset = images[0:4]
+label_subset = np.array(mnist.target.iloc[0:4].values)
 
 _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
-for ax, image, label in zip(axes, images, labels):
+for ax, image, label in zip(axes, image_subset, label_subset):
     ax.set_axis_off()
     ax.imshow(image, cmap=plt.cm.gray)
     ax.set_title("Training: " + label)
@@ -75,32 +62,33 @@ for ax, image, label in zip(axes, images, labels):
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Prepare Datasets
+# MAGIC ## Klargjøre datasettet for trening
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Split data into training and tests sets, also scale input values to a value between 0 and 1
-
-# COMMAND ----------
-
+# Vi splitter i trenings- og testsett, og skalerer inputverdiene til å være mellom 0 og 1
 X_train, X_test, y_train, y_test = train_test_split(
-    all_images, all_labels, test_size=0.2, shuffle=True
+    images, labels, test_size=0.2, shuffle=True
 )
 
-# highest value of any pixel is 255.0
+# Høyeste pikselverdi er 255
 X_train = X_train / 255.0
 X_test = X_test / 255.0
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Create Autoencoder
+# MAGIC ## Designe autoenkoderen
+# MAGIC
+# MAGIC Autoenkoderen vi skal sette opp ser slik ut
+# MAGIC
+# MAGIC
+# MAGIC
+# MAGIC ![arkitektur](https://cdn.sanity.io/images/syubz90f/kantegano-prod/9df82f22cfa79167a0a74d3b94c0c199f0d2cf6e-800x448.png?w=1200)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Create the Encoder
+# MAGIC %md Sette opp enkoderen
 
 # COMMAND ----------
 
@@ -113,8 +101,7 @@ encoder.add(Dense(10, activation="relu"))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Create the Decoder
+# MAGIC %md Sette opp dekoderen
 
 # COMMAND ----------
 
@@ -126,8 +113,7 @@ decoder.add(Reshape((28, 28)))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Combine the encoder and decoder
+# MAGIC %md Kombinere for å sette opp hele autoenkoderen
 
 # COMMAND ----------
 
@@ -135,17 +121,12 @@ autoencoder = Sequential([encoder, decoder], name="Autoencoder")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Compile the model
+# MAGIC %md ## Kompilere og trene modellen
 
 # COMMAND ----------
 
+# Kompilering
 autoencoder.compile(loss="mean_squared_error", optimizer="adam")
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ## Train the model
 
 # COMMAND ----------
 
@@ -156,12 +137,11 @@ history = autoencoder.fit(
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Visualize our results
+# MAGIC ## Inspisere resultater
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Fetch 10 images from the test set, one for each number
+# MAGIC %md Hente 10 eksempler fra testsettet, en for hvert siffer
 
 # COMMAND ----------
 
@@ -176,8 +156,7 @@ test_images = X_test[index_of_numbers]
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Use the autoencoder on the 10 images
+# MAGIC %md Bruke autoenkoderen på disse 10 bildene
 
 # COMMAND ----------
 
@@ -185,8 +164,7 @@ preds = autoencoder.predict(test_images)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Visualize the original images
+# MAGIC %md Visualisere orginalbildene
 
 # COMMAND ----------
 
@@ -197,8 +175,7 @@ for ax, image in zip(axes, test_images):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Visualize the copies made by the autoencoder
+# MAGIC %md Visualisere kopiene laget av autoenkoderen
 
 # COMMAND ----------
 
@@ -209,84 +186,19 @@ for ax, image in zip(axes, preds):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Visualize the internal representation of the numbers
+# MAGIC %md Ser dette bra ut?
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ### Extract encoder from autoencoder
+# MAGIC ## Oppgaver
 
 # COMMAND ----------
 
-encoder = autoencoder.layers[0]
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ### Get latent representations from test images
-
-# COMMAND ----------
-
-latent_representations = encoder.predict(test_images)
+# MAGIC %md Oppgave 1: Hvordan kan vi vurdere autoenkoderens performance?
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ### Reshape and visualize latent representations
-
-# COMMAND ----------
-
-latent_images = latent_representations.reshape((10, 5, 2))
-
-_, axes = plt.subplots(nrows=1, ncols=10, figsize=(10, 3))
-for ax, image in zip(axes, latent_images):
-    ax.axes.xaxis.set_visible(False)
-    ax.axes.yaxis.set_visible(False)
-    ax.imshow(image, cmap=plt.cm.gray)
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ## Visualize internal rep. of the same number
-
-# COMMAND ----------
-
-# Get index of 4 images containing the number 4
-indices = get_n_indices_of_value(y_test, "4", 10)
-
-# COMMAND ----------
-
-number_4_images = X_test[indices]
-
-# COMMAND ----------
-
-_, axes = plt.subplots(nrows=1, ncols=10, figsize=(10, 3))
-for ax, image in zip(axes, number_4_images):
-    ax.set_axis_off()
-    ax.imshow(image, cmap=plt.cm.gray)
-
-# COMMAND ----------
-
-number_4_preds = autoencoder.predict(number_4_images)
-
-# COMMAND ----------
-
-_, axes = plt.subplots(nrows=1, ncols=10, figsize=(10, 3))
-for ax, image in zip(axes, number_4_preds):
-    ax.set_axis_off()
-    ax.imshow(image, cmap=plt.cm.gray)
-
-# COMMAND ----------
-
-number_4_latent = encoder.predict(number_4_images)
-
-# COMMAND ----------
-
-latent_4_images = number_4_latent.reshape((10, 5, 2))
-
-_, axes = plt.subplots(nrows=1, ncols=10, figsize=(10, 3))
-for ax, image in zip(axes, latent_images):
-    ax.axes.xaxis.set_visible(False)
-    ax.axes.yaxis.set_visible(False)
-    ax.imshow(image, cmap=plt.cm.gray)
+# MAGIC Oppgave 2: Kan du lage en modell som yter bedre enn modellen vi har trent?
+# MAGIC >Tips: Se på [bloggartikkelen](https://www.kantega.no/blogg/avanserte-maskinlaerekonsepter-autoenkoderen) igjen
