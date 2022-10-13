@@ -52,7 +52,7 @@ df = custom_data_preparation(
 
 import mlflow
 
-logged_model = "runs:/6ff4489f99f846d0ad0ca38f6700ba66/model"
+logged_model = "runs:/deef39bdde034163a87384c1b43435d9/model"
 
 # Load model as a PyFuncModel.
 loaded_model = mlflow.pyfunc.load_model(logged_model)
@@ -71,10 +71,7 @@ sample
 
 # MAGIC %md #### Oppgave 2: Kan du forklare modellen du brukte for prediksjon?
 # MAGIC
-# MAGIC Hvilke inputvariabler kan forklare mest av naturkampen-plasseringen?
-# MAGIC
-# MAGIC **TIPS**: Se på eksperimentnotebooken
 
 # COMMAND ----------
 
-# MAGIC %md Se command 19 i [eksperimentnotebooken](https://adb-2582450973867059.19.azuredatabricks.net/?o=2582450973867059#notebook/3901909671451995/command/3901909671452043 )
+# MAGIC %md Se command 19 i [eksperimentnotebooken](https://adb-370413416702425.5.azuredatabricks.net/?o=370413416702425#notebook/3502579167641158)
