@@ -1,9 +1,9 @@
+from logging import PlaceHolder
 import numpy as np
 import pandas as pd
 import streamlit as st
 from PIL import Image
 from utils.defaults import defaults
-from utils.detr import detect, detr, plot_results, transform
 from utils.kantega import kantega_footer
 
 defaults()
@@ -48,21 +48,8 @@ with tab2:
 
 
 with tab3:
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        img_file_buffer = st.camera_input("Ta et bilde av noe")
-
-    with col2:
-
-        if img_file_buffer is not None:
-            # To read image file buffer as a PIL Image
-            img = Image.open(img_file_buffer)
-
-            scores, boxes = detect(img, detr, transform)
-            plot_results(img, scores, boxes)
-        else:
-            st.markdown("...")
-
+    st.markdown("PlaceHolder")
+    
 with tab4:
     st.image(
         "https://media-exp1.licdn.com/dms/image/C4E22AQGK7KErb7oToA/feedshare-shrink_2048_1536/0/1659537910391?e=1665014400&v=beta&t=aOqqkprLrEW8maoPJ61nb-Uj3fiR2zMJ-Df0GxWBW-s",

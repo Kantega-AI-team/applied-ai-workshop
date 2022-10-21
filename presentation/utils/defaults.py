@@ -51,7 +51,7 @@ def defaults():
     with col2:
         st.markdown("")
     with col3:
-        st.image("resources/kantega_logo.png", width=400)
+        st.image("resources/Kantega_logo.png", width=400)
 
     with col4:
         st.markdown(
