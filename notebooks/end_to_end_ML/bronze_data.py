@@ -22,6 +22,11 @@ from pyspark.sql.types import (
 
 # COMMAND ----------
 
+#removve previously ingested bronze streams
+dbutils.fs.rm("/FileStore/bronze",recurse= True)
+
+# COMMAND ----------
+
 # set schema 
 
 data_schema = StructType(
@@ -69,7 +74,7 @@ def make_bronze_data(raw_df: DataFrame, batchId: int) -> None:
 
     # store the bronze dataset
     (
-        bronze_df.write.mode("overwrite")
+        bronze_df.write.mode("append")
         .option("mergeSchema", False)
         .format("delta")
         .save(dataset_bronze_path)
@@ -101,3 +106,11 @@ write_bronze_data = (
     .queryName("bronzing_data")
     .start()
 )
+
+# COMMAND ----------
+
+bronze_df = spark.read.load(dataset_bronze_path, format ="delta", versionAsOf = 1)
+
+# COMMAND ----------
+
+bronze_df.display()
