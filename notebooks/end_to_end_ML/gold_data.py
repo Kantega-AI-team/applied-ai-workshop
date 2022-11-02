@@ -45,7 +45,7 @@ def make_gold_data(silver_data: DataFrame, batchId: int) -> None:
             "leftouter",
         )
         .select("internal.*", "external.temperature", "external.weather")
-        .drop("ingestion_tmsp")
+        .drop("ingestion_tmsp", "name") #for privacy 
     )
     
     # save the gold data
