@@ -35,7 +35,7 @@ dbutils.fs.rm("/FileStore/bronze/checkpoint/external_data",recurse= True)
 external_data_schema = StructType(
     [
         StructField("NAME", StringType(), False),
-        StructField("temp", StringType(), False),
+        StructField("temp", DoubleType(), False),
     ]
 )
 
