@@ -22,7 +22,7 @@ from pyspark.sql.types import (
 
 # COMMAND ----------
 
-#removve previously ingested bronze streams
+#remove previously ingested bronze stream
 dbutils.fs.rm("/FileStore/bronze",recurse= True)
 
 # COMMAND ----------
@@ -109,8 +109,14 @@ write_bronze_data = (
 
 # COMMAND ----------
 
+time.sleep(60)
+
+# load the delta lake resulting from the bronzing 
 bronze_df = spark.read.load(dataset_bronze_path, format ="delta", versionAsOf = 1)
+
+# let's have a look at it
+bronze_df.display()
 
 # COMMAND ----------
 
-bronze_df.display()
+
