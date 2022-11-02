@@ -19,6 +19,7 @@ from pyspark.sql.types import (
     StructType,
     TimestampType,
 )
+import time
 
 # COMMAND ----------
 
