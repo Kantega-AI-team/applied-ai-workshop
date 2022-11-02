@@ -1,17 +1,9 @@
 # Databricks notebook source
 # import required modules
 
-import base64
-import datetime
-import hashlib
-import hmac
-import json
-
 import pyspark
 import pyspark.sql.functions as F
-import requests
 from pyspark.sql import DataFrame
-from pyspark.sql.streaming import StreamingQueryListener
 from pyspark.sql.types import (
     DoubleType,
     FloatType,
@@ -22,6 +14,7 @@ from pyspark.sql.types import (
     TimestampType,
 )
 import os
+import pandas as pd
 
 # COMMAND ----------
 
@@ -39,14 +32,3 @@ original_dataset_pd = original_dataset_pd.drop(["_c0"], axis = 1)
 
 # store the pandas version of the original dataset in FileStore/raw_data
 original_dataset_pd.to_csv("/dbfs/FileStore/raw_data/naturkampen_original.csv", index = False)
-
-# COMMAND ----------
-
-# split the original dataset in 5 unique samples
-
-# COMMAND ----------
-
-# split the original dataset in more datasets
-
-
-# store the data as csv files with ordered tables 
