@@ -124,19 +124,19 @@ external_dataset = external_dataset.assign(temp = round(out,2))
 # split the external_dataset in 5 datasets having each the same towns as in the naturkampen datasets
 
 #external_dataset_1
-external_dataset_1 = pd.merge(external_dataset, dataset_1.NAME, on = "NAME", how = "right" )
+external_dataset_1 = pd.merge(external_dataset, dataset_1.NAME, on = "NAME", how = "right" ).drop(["CABIN_CONSTRUCTION"], axis = 1)
 
 #external_dataset_2
-external_dataset_2 = pd.merge(external_dataset, dataset_2.NAME, on = "NAME", how = "right" )
+external_dataset_2 = pd.merge(external_dataset, dataset_2.NAME, on = "NAME", how = "right" ).drop(["CABIN_CONSTRUCTION"], axis = 1)
 
 #external_dataset_3
-external_dataset_3 = pd.merge(external_dataset, dataset_3.NAME, on = "NAME", how = "right" )
+external_dataset_3 = pd.merge(external_dataset, dataset_3.NAME, on = "NAME", how = "right" ).drop(["CABIN_CONSTRUCTION"], axis = 1)
 
 #external_dataset_4
-external_dataset_4 = pd.merge(external_dataset, dataset_4.NAME, on = "NAME", how = "right" )
+external_dataset_4 = pd.merge(external_dataset, dataset_4.NAME, on = "NAME", how = "right" ).drop(["CABIN_CONSTRUCTION"], axis = 1)
 
 #external_dataset_5
-external_dataset_5 = pd.merge(external_dataset, dataset_5.NAME, on = "NAME", how = "right" )
+external_dataset_5 = pd.merge(external_dataset, dataset_5.NAME, on = "NAME", how = "right" ).drop(["CABIN_CONSTRUCTION"], axis = 1)
 
 # COMMAND ----------
 

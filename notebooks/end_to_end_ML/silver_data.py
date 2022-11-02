@@ -9,7 +9,8 @@ import time
 # COMMAND ----------
 
 #remove previously ingested silver stream
-dbutils.fs.rm("/FileStore/silver",recurse= True)
+dbutils.fs.rm("/FileStore/silver/data",recurse= True)
+dbutils.fs.rm("/FileStore/silver/checkpoint/data",recurse= True)
 
 # COMMAND ----------
 

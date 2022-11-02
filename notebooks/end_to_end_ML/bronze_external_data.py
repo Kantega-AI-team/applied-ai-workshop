@@ -1,9 +1,5 @@
 # Databricks notebook source
-import base64
-import datetime
-import hashlib
-import hmac
-import json
+# load required packages
 
 import pyspark
 import pyspark.sql.functions as F
@@ -20,45 +16,44 @@ from pyspark.sql.types import (
     TimestampType,
 )
 
+import time
+
 # COMMAND ----------
 
 #remove previously ingested bronze stream
-dbutils.fs.rm("/FileStore/bronze/data",recurse= True)
-dbutils.fs.rm("/FileStore/bronze/checkpoint/data",recurse= True)
+dbutils.fs.rm("/FileStore/bronze/external_data",recurse= True)
+dbutils.fs.rm("/FileStore/bronze/checkpoint/external_data",recurse= True)
+
+# COMMAND ----------
+
+#external_data1= spark.read.load("/FileStore/raw_data/external_dataset_1.csv", sep = ";", header = True, format = "csv")
 
 # COMMAND ----------
 
 # set schema 
 
-data_schema = StructType(
+external_data_schema = StructType(
     [
         StructField("NAME", StringType(), False),
-        StructField("COUNTY", StringType(), False),
-        StructField("AREA", IntegerType(), True),
-        StructField("POPULATION", IntegerType(), True),
-        StructField("CABIN_CONSTRUCTION", DoubleType(), True),
-        StructField("ECO_RIVER_WATER", DoubleType(), False),
+        StructField("temp", StringType(), False),
     ]
 )
 
 
-# COMMAND ----------
-
-#data1= spark.read.load("/FileStore/raw_data/dataset_1.csv", sep = ";", header = True, format = "csv", schema = data_schema)
 
 # COMMAND ----------
 
 #paths for raw and bronze datasets
 
-dataset_raw_path = "/FileStore/raw_data/dataset*.csv"
-dataset_bronze_path = "/FileStore/bronze/data"
-dataset_bronze_checkpointh_path = "/FileStore/bronze/checkpoint/data"
+external_dataset_raw_path = "/FileStore/raw_data/external_dataset*.csv"
+external_dataset_bronze_path = "/FileStore/bronze/external_data"
+external_dataset_bronze_checkpointh_path = "/FileStore/bronze/checkpoint/external_data"
 
 # COMMAND ----------
 
 # function to be applied to each batch of the stream
 
-def make_bronze_data(raw_df: DataFrame, batchId: int) -> None:
+def make_bronze_external_data(raw_df: DataFrame, batchId: int) -> None:
     
     # add ingestion timestamp column
     bronze_df = raw_df.withColumn(
@@ -78,7 +73,7 @@ def make_bronze_data(raw_df: DataFrame, batchId: int) -> None:
         bronze_df.write.mode("append")
         .option("mergeSchema", False)
         .format("delta")
-        .save(dataset_bronze_path)
+        .save(external_dataset_bronze_path)
     )
     
     
@@ -87,24 +82,24 @@ def make_bronze_data(raw_df: DataFrame, batchId: int) -> None:
 
 # read raw stream
 
-read_raw_data = (
+read_raw_external_data = (
     spark.readStream.format("csv")
     .option("header", True)
     .option("sep", ";")
-    .schema(data_schema)
+    .schema(external_data_schema)
     .option("enforceSchema", False)
     .option("maxFilesPerTrigger", 1)
-    .load(dataset_raw_path)
+    .load(external_dataset_raw_path)
 )
 
 # COMMAND ----------
 
 # write stream
-write_bronze_data = (
-    read_raw_data.writeStream.foreachBatch(make_bronze_data)
+write_bronze_external_data = (
+    read_raw_external_data.writeStream.foreachBatch(make_bronze_external_data)
     .trigger(availableNow=True)
-    .option("checkpointLocation", dataset_bronze_checkpointh_path)
-    .queryName("bronzing_data")
+    .option("checkpointLocation", external_dataset_bronze_checkpointh_path)
+    .queryName("bronzing_external_data")
     .start()
 )
 
@@ -113,11 +108,7 @@ write_bronze_data = (
 time.sleep(60)
 
 # load the delta lake resulting from the bronzing 
-bronze_df = spark.read.load(dataset_bronze_path, format ="delta", versionAsOf = 1)
+bronze_df = spark.read.load(external_dataset_bronze_path, format ="delta", versionAsOf = 1)
 
 # let's have a look at it
 bronze_df.display()
-
-# COMMAND ----------
-
-
